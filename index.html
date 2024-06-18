@@ -62,6 +62,10 @@
       padding: 10px;
       border-radius: 5px;
     }
+    .loading {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
@@ -73,6 +77,8 @@
     function App() {
       const [word, setWord] = useState('');
       const [result, setResult] = useState('');
+      const [loading, setLoading] = useState(false);
+      const [submitted, setSubmitted] = useState(false);
 
       const handleChange = (e) => {
         setWord(e.target.value);
@@ -80,6 +86,8 @@
 
       const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
+        setSubmitted(true);
 
         const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyCOkIM8CgIL-doX70RxKr-_wcs5lqRx8gg';
         const data = {
@@ -87,7 +95,7 @@
             {
               parts: [
                 {
-                  text: `What is ${word}`
+                  text: `What is ${word} in one para`
                 }
               ]
             }
@@ -103,20 +111,37 @@
             body: JSON.stringify(data)
           });
           const json = await response.json();
-          setResult(json); // Adjust this to display the specific part of the response you need
+          setLoading(false);
+          const content = json.candidates[0].content.parts[0].text; // Extract the text part
+          setResult(content);
         } catch (error) {
           console.error('Error:', error);
+          setLoading(false);
         }
+      };
+
+      const handleTryAnother = () => {
+        setWord('');
+        setResult('');
+        setSubmitted(false);
       };
 
       return (
         <div>
-          <h1>Ask about a word</h1>
-          <form onSubmit={handleSubmit}>
-            <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
-            <button type="submit">Submit</button>
-          </form>
-          {result && <p>{JSON.stringify(result)}</p>} {/* Adjust the display as needed */}
+          <h1>Ask about a Object!</h1>
+          {!submitted && (
+            <form onSubmit={handleSubmit}>
+              <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
+              <button type="submit">Submit</button>
+            </form>
+          )}
+          {loading && <p className="loading">Loading...</p>}
+          {result && (
+            <>
+              <p>{result}</p>
+              <button onClick={handleTryAnother}>Try Another</button>
+            </>
+          )}
         </div>
       );
     }
