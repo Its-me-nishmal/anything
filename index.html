@@ -33,7 +33,7 @@
       font-size: 2em;
       margin-bottom: 20px;
     }
-    form {
+    form, .result-section {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -128,7 +128,7 @@
 
       return (
         <div>
-          <h1>Ask about a Object!</h1>
+          <h1>Ask about a Object</h1>
           {!submitted && (
             <form onSubmit={handleSubmit}>
               <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
@@ -137,10 +137,10 @@
           )}
           {loading && <p className="loading">Loading...</p>}
           {result && (
-            <>
+            <div className="result-section">
               <p>{result}</p>
               <button onClick={handleTryAnother}>Try Another</button>
-            </>
+            </div>
           )}
         </div>
       );
