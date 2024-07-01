@@ -3,25 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>React App with CDN</title>
+  <title>Quick Info Finder</title>
   <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body, html {
       margin: 0;
       padding: 0;
       height: 100%;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Poppins', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(135deg, #3498db, #9b59b6);
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
       color: white;
       text-align: center;
     }
     #root {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 20px;
       padding: 40px;
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
@@ -34,15 +35,17 @@
       transform: translateY(-5px);
     }
     h1 {
-      font-size: 2.5em;
+      font-size: 2.8em;
       margin-bottom: 10px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
     }
     h2 {
       font-size: 1.5em;
       margin-bottom: 20px;
       font-weight: 300;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease-in-out;
     }
     form, .result-section {
       display: flex;
@@ -57,29 +60,36 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
     input {
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
+      animation: fadeIn 2s ease-in-out;
     }
     button {
-      background: #3498db;
+      background: #ff7e5f;
       color: white;
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
+      animation: fadeIn 2.5s ease-in-out;
     }
     button:hover {
-      background: #2980b9;
+      background: #e3645c;
       transform: scale(1.05);
     }
     p {
       margin-top: 20px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(0, 0, 0, 0.3);
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 3s ease-in-out;
     }
     .loading {
       font-size: 1.5em;
       margin-top: 20px;
       font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
   </style>
 </head>
@@ -143,15 +153,15 @@
 
       return (
         <div>
-          <h1>Ask about an Object</h1>
-          <h2>Get instant information on any topic</h2>
+          <h1>Quick Info Finder</h1>
+          <h2>Discover facts instantly!</h2>
           {!submitted && (
             <form onSubmit={handleSubmit}>
               <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
-              <button type="submit">Submit</button>
+              <button type="submit">Get Info</button>
             </form>
           )}
-          {loading && <p className="loading">Loading...</p>}
+          {loading && <p className="loading">Fetching info...</p>}
           {result && (
             <div className="result-section">
               <p>{result}</p>
