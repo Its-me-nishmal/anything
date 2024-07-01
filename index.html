@@ -251,6 +251,7 @@
       useEffect(() => {
         const theme = themes[Math.floor(Math.random() * themes.length)];
         document.body.style.background = theme.bodyBg;
+        document.html.style.background = theme.bodyBg;
         document.body.style.color = theme.textColor;
         const rootElement = document.getElementById('root');
         rootElement.style.background = theme.bodyBg;
