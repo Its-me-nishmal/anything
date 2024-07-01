@@ -15,7 +15,6 @@
       height: 100%;
       font-family: 'Poppins', sans-serif;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       background: linear-gradient(135deg, #ff7e5f, #feb47b);
@@ -29,7 +28,6 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 500px;
       width: 90%;
-      margin: 20px;
       transition: all 0.3s;
     }
     #root:hover {
@@ -47,6 +45,7 @@
       font-weight: 300;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
       animation: fadeIn 1.5s ease-in-out;
+      min-height: 30px; /* Adjust this to fit the text content */
     }
     form, .result-section {
       display: flex;
@@ -88,29 +87,47 @@
       margin-top: 20px;
       font-weight: bold;
     }
-    footer {
-      margin-top: auto;
-      padding: 10px;
-      font-size: 0.9em;
-      animation: blink 2s linear infinite;
-      cursor: pointer;
-    }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
-    }
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <footer id="footer"></footer>
 
   <script type="text/babel">
     const { useState, useEffect } = React;
+
+    function TypingEffect({ texts, speed }) {
+      const [displayText, setDisplayText] = useState('');
+      const [index, setIndex] = useState(0);
+      const [subIndex, setSubIndex] = useState(0);
+      const [forward, setForward] = useState(true);
+
+      useEffect(() => {
+        if (index === texts.length) return;
+        
+        if (subIndex === texts[index].length + 1 && forward) {
+          setTimeout(() => setForward(false), 1500);
+        } else if (subIndex === 0 && !forward) {
+          setForward(true);
+          setIndex((prev) => (prev + 1) % texts.length);
+        }
+
+        const timeout = setTimeout(() => {
+          setSubIndex((prev) => prev + (forward ? 1 : -1));
+        }, speed);
+
+        return () => clearTimeout(timeout);
+      }, [subIndex, forward, index, texts, speed]);
+
+      useEffect(() => {
+        setDisplayText(texts[index].substring(0, subIndex));
+      }, [subIndex, index, texts]);
+
+      return <h2>{displayText}</h2>;
+    }
 
     function App() {
       const [word, setWord] = useState('');
@@ -167,7 +184,14 @@
       return (
         <div>
           <h1>Quick Info Finder</h1>
-          <h2>Discover facts instantly!</h2>
+          <TypingEffect texts={[
+            "Discover facts instantly!",
+            "Developed by Nishmal",
+            "Version 3.0",
+            "Index.html only for creation",
+            "React DOM used",
+            "GPT-4 design and more"
+          ]} speed={100} />
           {!submitted && (
             <form onSubmit={handleSubmit}>
               <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
@@ -186,28 +210,6 @@
     }
 
     ReactDOM.render(<App />, document.getElementById('root'));
-
-    const footerTexts = [
-      "Developed by Nishmal",
-      "Version 3.0",
-      "Index.html only for creation",
-      "React DOM used",
-      "GPT-4 design and more"
-    ];
-
-    let footerIndex = 0;
-
-    const footerElement = document.getElementById('footer');
-    footerElement.textContent = footerTexts[footerIndex];
-
-    footerElement.addEventListener('click', () => {
-      window.location.href = 'https://github.com/Its-me-nishmal/anything';
-    });
-
-    setInterval(() => {
-      footerIndex = (footerIndex + 1) % footerTexts.length;
-      footerElement.textContent = footerTexts[footerIndex];
-    }, 2000);
   </script>
 </body>
 </html>
