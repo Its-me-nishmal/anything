@@ -21,7 +21,6 @@
       background: linear-gradient(135deg, #ff7e5f, #feb47b);
       color: white;
       text-align: center;
-      animation: backgroundOpacity 5s infinite alternate;
     }
     #root {
       background: rgba(255, 255, 255, 0.2);
@@ -32,7 +31,6 @@
       width: 90%;
       margin: 20px;
       transition: all 0.3s;
-      animation: rootOpacity 5s infinite alternate;
     }
     #root:hover {
       transform: translateY(-5px);
@@ -61,18 +59,17 @@
       border-radius: 8px;
       font-size: 1em;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      animation: elementOpacity 5s infinite alternate;
     }
     input {
       background: rgba(255, 255, 255, 0.9);
-      animation: fadeIn 2s ease-in-out, elementOpacity 5s infinite alternate;
+      animation: fadeIn 2s ease-in-out;
     }
     button {
       background: #ff7e5f;
       color: white;
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
-      animation: fadeIn 2.5s ease-in-out, elementOpacity 5s infinite alternate;
+      animation: fadeIn 2.5s ease-in-out;
     }
     button:hover {
       background: #e3645c;
@@ -84,45 +81,36 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      animation: fadeIn 3s ease-in-out, elementOpacity 5s infinite alternate;
+      animation: fadeIn 3s ease-in-out;
     }
     .loading {
       font-size: 1.5em;
       margin-top: 20px;
       font-weight: bold;
     }
-    .footer {
-      margin-top: 20px;
+    footer {
+      margin-top: auto;
+      padding: 10px;
       font-size: 0.9em;
-      color: rgba(255, 255, 255, 0.7);
-      animation: fadeIn 4s ease-in-out;
+      animation: blink 2s linear infinite;
+      cursor: pointer;
     }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes backgroundOpacity {
-      0% { opacity: 1; }
-      100% { opacity: 0.8; }
-    }
-    @keyframes rootOpacity {
-      0% { opacity: 1; }
-      100% { opacity: 0.9; }
-    }
-    @keyframes elementOpacity {
-      0% { opacity: 1; }
-      100% { opacity: 0.8; }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
-  <footer class="footer">
-    Developed by Nishmal
-  </footer>
+  <footer id="footer"></footer>
 
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useEffect } = React;
 
     function App() {
       const [word, setWord] = useState('');
@@ -198,6 +186,28 @@
     }
 
     ReactDOM.render(<App />, document.getElementById('root'));
+
+    const footerTexts = [
+      "Developed by Nishmal",
+      "Version 3.0",
+      "Index.html only for creation",
+      "React DOM used",
+      "GPT-4 design and more"
+    ];
+
+    let footerIndex = 0;
+
+    const footerElement = document.getElementById('footer');
+    footerElement.textContent = footerTexts[footerIndex];
+
+    footerElement.addEventListener('click', () => {
+      window.location.href = 'https://github.com/Its-me-nishmal/anything';
+    });
+
+    setInterval(() => {
+      footerIndex = (footerIndex + 1) % footerTexts.length;
+      footerElement.textContent = footerTexts[footerIndex];
+    }, 2000);
   </script>
 </body>
 </html>
