@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quick Info Finder</title>
+  
+  <!-- Meta tags for SEO -->
+  <meta name="description" content="Quick Info Finder: Discover cool facts instantly with Nishmal Vadakara's React-powered app. Get enhanced results powered by GPT-4.">
+  <meta name="keywords" content="Quick Info Finder, Nishmal Vadakara, React app, GPT-4, instant facts, quick information">
+  <meta name="author" content="Nishmal Vadakara">
+  
+  <!-- Open Graph meta tags for social media -->
+  <meta property="og:title" content="Quick Info Finder">
+  <meta property="og:description" content="Discover cool facts instantly with Nishmal Vadakara's React-powered app. Get enhanced results powered by GPT-4.">
+  <meta property="og:image" content="URL_to_image_if_any">
+  <meta property="og:url" content="URL_of_your_page">
+  <meta property="og:type" content="website">
+  
   <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
@@ -210,6 +223,48 @@
         navigator.clipboard.writeText(result);
         alert("Copied to clipboard!");
       };
+
+      const themes = [
+        { bodyBg: 'linear-gradient(135deg, #ff7e5f, #feb47b)', textColor: 'white', buttonBg: '#ff7e5f', buttonHoverBg: '#e3645c' },
+        { bodyBg: 'linear-gradient(135deg, #6a11cb, #2575fc)', textColor: 'white', buttonBg: '#6a11cb', buttonHoverBg: '#4a0c9e' },
+        { bodyBg: 'linear-gradient(135deg, #43cea2, #185a9d)', textColor: 'white', buttonBg: '#43cea2', buttonHoverBg: '#2a947c' },
+        { bodyBg: 'linear-gradient(135deg, #ff4e50, #f9d423)', textColor: 'white', buttonBg: '#ff4e50', buttonHoverBg: '#e34244' },
+        { bodyBg: 'linear-gradient(135deg, #8e2de2, #4a00e0)', textColor: 'white', buttonBg: '#8e2de2', buttonHoverBg: '#7220b7' },
+        { bodyBg: 'linear-gradient(135deg, #f953c6, #b91d73)', textColor: 'white', buttonBg: '#f953c6', buttonHoverBg: '#cc3e93' },
+        { bodyBg: 'linear-gradient(135deg, #2193b0, #6dd5ed)', textColor: 'white', buttonBg: '#2193b0', buttonHoverBg: '#1a7386' },
+        { bodyBg: 'linear-gradient(135deg, #cc2b5e, #753a88)', textColor: 'white', buttonBg: '#cc2b5e', buttonHoverBg: '#992349' },
+        { bodyBg: 'linear-gradient(135deg, #dce35b, #45b649)', textColor: 'white', buttonBg: '#dce35b', buttonHoverBg: '#b3c445' },
+        { bodyBg: 'linear-gradient(135deg, #fc4a1a, #f7b733)', textColor: 'white', buttonBg: '#fc4a1a', buttonHoverBg: '#d73a0f' },
+        { bodyBg: 'linear-gradient(135deg, #6441a5, #2a0845)', textColor: 'white', buttonBg: '#6441a5', buttonHoverBg: '#4e327a' },
+        { bodyBg: 'linear-gradient(135deg, #12c2e9, #c471ed, #f64f59)', textColor: 'white', buttonBg: '#12c2e9', buttonHoverBg: '#0e9db5' },
+        { bodyBg: 'linear-gradient(135deg, #f12711, #f5af19)', textColor: 'white', buttonBg: '#f12711', buttonHoverBg: '#c11c0d' },
+        { bodyBg: 'linear-gradient(135deg, #0099f7, #f11712)', textColor: 'white', buttonBg: '#0099f7', buttonHoverBg: '#006eb3' },
+        { bodyBg: 'linear-gradient(135deg, #00b09b, #96c93d)', textColor: 'white', buttonBg: '#00b09b', buttonHoverBg: '#007d6e' },
+        { bodyBg: 'linear-gradient(135deg, #ee0979, #ff6a00)', textColor: 'white', buttonBg: '#ee0979', buttonHoverBg: '#bb0660' },
+        { bodyBg: 'linear-gradient(135deg, #8e44ad, #3498db)', textColor: 'white', buttonBg: '#8e44ad', buttonHoverBg: '#6e3395' },
+        { bodyBg: 'linear-gradient(135deg, #2c3e50, #3498db)', textColor: 'white', buttonBg: '#2c3e50', buttonHoverBg: '#1e2b3a' },
+        { bodyBg: 'linear-gradient(135deg, #2b5876, #4e4376)', textColor: 'white', buttonBg: '#2b5876', buttonHoverBg: '#1f4059' },
+        { bodyBg: 'linear-gradient(135deg, #b92b27, #1565c0)', textColor: 'white', buttonBg: '#b92b27', buttonHoverBg: '#95211f' },
+      ];
+
+      useEffect(() => {
+        const theme = themes[Math.floor(Math.random() * themes.length)];
+        document.body.style.background = theme.bodyBg;
+        document.body.style.color = theme.textColor;
+        const rootElement = document.getElementById('root');
+        rootElement.style.background = theme.bodyBg;
+        rootElement.style.color = theme.textColor;
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+          button.style.background = theme.buttonBg;
+          button.addEventListener('mouseover', () => {
+            button.style.background = theme.buttonHoverBg;
+          });
+          button.addEventListener('mouseout', () => {
+            button.style.background = theme.buttonBg;
+          });
+        });
+      }, []);
 
       return (
         <div>
