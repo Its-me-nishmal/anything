@@ -45,7 +45,7 @@
       font-weight: 300;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
       animation: fadeIn 1.5s ease-in-out;
-      min-height: 30px; /* Adjust this to fit the text content */
+      min-height: 30px;
     }
     form, .result-section {
       display: flex;
@@ -81,6 +81,7 @@
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       animation: fadeIn 3s ease-in-out;
+      position: relative;
     }
     .loading {
       font-size: 1.5em;
@@ -90,6 +91,30 @@
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
+    }
+    .github-button {
+      background: #24292e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+      animation: fadeIn 3s ease-in-out;
+    }
+    .github-button:hover {
+      background: #444d56;
+    }
+    .copy-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.2em;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 8px;
     }
   </style>
 </head>
@@ -181,16 +206,20 @@
         setSubmitted(false);
       };
 
+      const handleCopy = () => {
+        navigator.clipboard.writeText(result);
+        alert("Copied to clipboard!");
+      };
+
       return (
         <div>
           <h1>Quick Info Finder</h1>
           <TypingEffect texts={[
-            "Discover facts instantly!",
-            "Developed by Nishmal",
+            "Discover cool facts instantly!",
+            "Powered by Nishmal's magic",
             "Version 3.0",
-            "Index.html only for creation",
-            "React DOM used",
-            "GPT-4 design and more"
+            "Built with React",
+            "Enhanced by GPT-4"
           ]} speed={100} />
           {!submitted && (
             <form onSubmit={handleSubmit}>
@@ -202,9 +231,11 @@
           {result && (
             <div className="result-section">
               <p>{result}</p>
+              <span className="copy-icon" onClick={handleCopy}>📋</span>
               <button onClick={handleTryAnother}>Try Another</button>
             </div>
           )}
+          <a href="https://github.com/Its-me-nishmal/anything" className="github-button">View on GitHub</a>
         </div>
       );
     }
