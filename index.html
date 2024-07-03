@@ -22,7 +22,7 @@
   <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body, html {
+    body,html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -33,6 +33,7 @@
       background: linear-gradient(135deg, #ff7e5f, #feb47b);
       color: white;
       text-align: center;
+      transition: background 0.3s;
     }
     #root {
       background: rgba(255, 255, 255, 0.2);
@@ -41,18 +42,23 @@
       box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
       max-width: 500px;
       width: 90%;
-      text-align: left;
+      transition: all 0.3s;
+    }
+    #root:hover {
+      transform: translateY(-5px);
     }
     h1 {
-      font-size: 2.5em;
+      font-size: 2.8em;
       margin-bottom: 10px;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
     }
     h2 {
       font-size: 1.5em;
       margin-bottom: 20px;
       font-weight: 300;
       text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease-in-out;
       min-height: 30px;
     }
     form, .result-section {
@@ -69,12 +75,14 @@
     }
     input {
       background: rgba(255, 255, 255, 0.9);
+      animation: fadeIn 2s ease-in-out;
     }
     button {
       background: #ff7e5f;
       color: white;
       cursor: pointer;
       transition: background 0.3s, transform 0.2s;
+      animation: fadeIn 2.5s ease-in-out;
     }
     button:hover {
       background: #e3645c;
@@ -86,12 +94,17 @@
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 3s ease-in-out;
       position: relative;
     }
     .loading {
       font-size: 1.5em;
       margin-top: 20px;
       font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     .github-button {
       background: #24292e;
@@ -102,23 +115,21 @@
       font-weight: bold;
       display: inline-block;
       margin-top: 20px;
+      animation: fadeIn 3s ease-in-out;
     }
     .github-button:hover {
       background: #444d56;
     }
-    .icons {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 10px;
-    }
     .icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
       cursor: pointer;
       font-size: 1.2em;
       background: rgba(255, 255, 255, 0.8);
       padding: 5px 10px;
       border-radius: 8px;
+      margin-right: 40px;
     }
   </style>
 </head>
@@ -163,7 +174,6 @@
       const [result, setResult] = useState('');
       const [loading, setLoading] = useState(false);
       const [submitted, setSubmitted] = useState(false);
-      const [isSpeaking, setIsSpeaking] = useState(false);
 
       const handleChange = (e) => {
         setWord(e.target.value);
@@ -209,7 +219,6 @@
         setWord('');
         setResult('');
         setSubmitted(false);
-        setIsSpeaking(false);
       };
 
       const handleCopy = () => {
@@ -219,16 +228,8 @@
 
       const handleSpeak = () => {
         const synth = window.speechSynthesis;
-
-        if (isSpeaking) {
-          synth.cancel();
-          setIsSpeaking(false);
-        } else {
-          const utterance = new SpeechSynthesisUtterance(result);
-          utterance.onend = () => setIsSpeaking(false);
-          synth.speak(utterance);
-          setIsSpeaking(true);
-        }
+        const utterance = new SpeechSynthesisUtterance(result);
+        synth.speak(utterance);
       };
 
       const themes = [
@@ -257,10 +258,8 @@
           {result && (
             <div className="result-section">
               <p>{result}
-                <span className="icons">
-                  <span className="icon" onClick={handleCopy}>📋</span>
-                  <span className="icon" onClick={handleSpeak}>{isSpeaking ? '🔇' : '🔊'}</span>
-                </span>
+                <span className="icon" onClick={handleCopy}>📋</span>
+                <span className="icon" onClick={handleSpeak}>🔊</span>
               </p>
               <button onClick={handleTryAnother}>Try Another</button>
             </div>
