@@ -120,7 +120,7 @@
     .github-button:hover {
       background: #444d56;
     }
-    .copy-icon {
+    .icon {
       position: absolute;
       top: 20px;
       right: 20px;
@@ -129,6 +129,7 @@
       background: rgba(255, 255, 255, 0.8);
       padding: 5px 10px;
       border-radius: 8px;
+      margin-right: 40px;
     }
   </style>
 </head>
@@ -225,74 +226,45 @@
         alert("Copied to clipboard!");
       };
 
+      const handleSpeak = () => {
+        const synth = window.speechSynthesis;
+        const utterance = new SpeechSynthesisUtterance(result);
+        synth.speak(utterance);
+      };
+
       const themes = [
         { bodyBg: 'linear-gradient(135deg, #ff7e5f, #feb47b)', textColor: 'white', buttonBg: '#ff7e5f', buttonHoverBg: '#e3645c' },
-        { bodyBg: 'linear-gradient(135deg, #6a11cb, #2575fc)', textColor: 'white', buttonBg: '#6a11cb', buttonHoverBg: '#4a0c9e' },
-        { bodyBg: 'linear-gradient(135deg, #43cea2, #185a9d)', textColor: 'white', buttonBg: '#43cea2', buttonHoverBg: '#2a947c' },
-        { bodyBg: 'linear-gradient(135deg, #ff4e50, #f9d423)', textColor: 'white', buttonBg: '#ff4e50', buttonHoverBg: '#e34244' },
-        { bodyBg: 'linear-gradient(135deg, #8e2de2, #4a00e0)', textColor: 'white', buttonBg: '#8e2de2', buttonHoverBg: '#7220b7' },
-        { bodyBg: 'linear-gradient(135deg, #f953c6, #b91d73)', textColor: 'white', buttonBg: '#f953c6', buttonHoverBg: '#cc3e93' },
-        { bodyBg: 'linear-gradient(135deg, #2193b0, #6dd5ed)', textColor: 'white', buttonBg: '#2193b0', buttonHoverBg: '#1a7386' },
-        { bodyBg: 'linear-gradient(135deg, #cc2b5e, #753a88)', textColor: 'white', buttonBg: '#cc2b5e', buttonHoverBg: '#992349' },
-        { bodyBg: 'linear-gradient(135deg, #dce35b, #45b649)', textColor: 'white', buttonBg: '#dce35b', buttonHoverBg: '#b3c445' },
-        { bodyBg: 'linear-gradient(135deg, #fc4a1a, #f7b733)', textColor: 'white', buttonBg: '#fc4a1a', buttonHoverBg: '#d73a0f' },
-        { bodyBg: 'linear-gradient(135deg, #6441a5, #2a0845)', textColor: 'white', buttonBg: '#6441a5', buttonHoverBg: '#4e327a' },
-        { bodyBg: 'linear-gradient(135deg, #12c2e9, #c471ed, #f64f59)', textColor: 'white', buttonBg: '#12c2e9', buttonHoverBg: '#0e9db5' },
-        { bodyBg: 'linear-gradient(135deg, #f12711, #f5af19)', textColor: 'white', buttonBg: '#f12711', buttonHoverBg: '#c11c0d' },
-        { bodyBg: 'linear-gradient(135deg, #0099f7, #f11712)', textColor: 'white', buttonBg: '#0099f7', buttonHoverBg: '#006eb3' },
-        { bodyBg: 'linear-gradient(135deg, #00b09b, #96c93d)', textColor: 'white', buttonBg: '#00b09b', buttonHoverBg: '#007d6e' },
-        { bodyBg: 'linear-gradient(135deg, #ee0979, #ff6a00)', textColor: 'white', buttonBg: '#ee0979', buttonHoverBg: '#bb0660' },
-        { bodyBg: 'linear-gradient(135deg, #8e44ad, #3498db)', textColor: 'white', buttonBg: '#8e44ad', buttonHoverBg: '#6e3395' },
-        { bodyBg: 'linear-gradient(135deg, #2c3e50, #3498db)', textColor: 'white', buttonBg: '#2c3e50', buttonHoverBg: '#1e2b3a' },
-        { bodyBg: 'linear-gradient(135deg, #2b5876, #4e4376)', textColor: 'white', buttonBg: '#2b5876', buttonHoverBg: '#1f4059' },
-        { bodyBg: 'linear-gradient(135deg, #b92b27, #1565c0)', textColor: 'white', buttonBg: '#b92b27', buttonHoverBg: '#95211f' },
+        { bodyBg: 'linear-gradient(135deg, #6a11cb, #2575fc)', textColor: 'white', buttonBg: '#6a11cb', buttonHoverBg: '#4a0cb3' },
+        { bodyBg: 'linear-gradient(135deg, #00c6ff, #0072ff)', textColor: 'white', buttonBg: '#00c6ff', buttonHoverBg: '#005bb5' }
       ];
+      const [theme, setTheme] = useState(themes[0]);
 
       useEffect(() => {
-        const theme = themes[Math.floor(Math.random() * themes.length)];
         document.body.style.background = theme.bodyBg;
-        document.documentElement.style.background = theme.bodyBg;
         document.body.style.color = theme.textColor;
-        const rootElement = document.getElementById('root');
-        rootElement.style.background = theme.bodyBg;
-        rootElement.style.color = theme.textColor;
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(button => {
-          button.style.background = theme.buttonBg;
-          button.addEventListener('mouseover', () => {
-            button.style.background = theme.buttonHoverBg;
-          });
-          button.addEventListener('mouseout', () => {
-            button.style.background = theme.buttonBg;
-          });
-        });
-      }, []);
+      }, [theme]);
 
       return (
         <div>
           <h1>Quick Info Finder</h1>
-          <TypingEffect texts={[
-            "Discover cool facts instantly!",
-            "Powered by Nishmal's magic",
-            "Version 3.0",
-            "Built with React",
-            "Enhanced by GPT-4"
-          ]} speed={100} />
+          <TypingEffect texts={['Type a word and discover!', 'Get instant facts at your fingertips.']} speed={100} />
           {!submitted && (
             <form onSubmit={handleSubmit}>
               <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
-              <button type="submit">Get Info</button>
+              <button type="submit">Submit</button>
             </form>
           )}
-          {loading && <p className="loading">Fetching info...</p>}
+          {loading && <div className="loading">Loading...</div>}
           {result && (
             <div className="result-section">
-              <p>{result}</p>
-              <span className="copy-icon" onClick={handleCopy}>📋</span>
+              <p>{result}
+                <span className="icon" onClick={handleCopy}>📋</span>
+                <span className="icon" onClick={handleSpeak}>🔊</span>
+              </p>
               <button onClick={handleTryAnother}>Try Another</button>
             </div>
           )}
-          <a href="https://github.com/Its-me-nishmal/anything" className="github-button">⭐ Star me on GitHub!</a>
+          <a href="https://github.com/nishmal-vadakara" className="github-button">View on GitHub</a>
         </div>
       );
     }
