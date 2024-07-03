@@ -3,56 +3,141 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Definition Generator</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/17.0.2/umd/react.production.min.js" integrity="sha512-qlzIeUtTg7eBpmEaS12NZgxz52YYZVF5myj89mjJEesBd/oE9UPsYOX2QAXzvOAZYEvQohKdcY8zKE02ifXDmA==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/17.0.2/umd/react-dom.production.min.js" integrity="sha512-9jGNr5Piwe8nzLLYTk8QrEMPfjGU0px80GYzKZUxi7lmCfrBjtyCc1V5kkS5vxVwwIB7Qpzc7UxLiQxfAN30dw==" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/3.0.1/js.cookie.min.js"></script>
+  <title>Quick Info Finder</title>
+  
+  <!-- Meta tags for SEO -->
+  <meta name="description" content="Quick Info Finder: Discover cool facts instantly with Nishmal Vadakara's React-powered app. Get enhanced results powered by GPT-4.">
+  <meta name="keywords" content="Quick Info Finder, Nishmal Vadakara, React app, GPT-4, instant facts, quick information">
+  <meta name="author" content="Nishmal Vadakara">
+  
+  <!-- Open Graph meta tags for social media -->
+  <meta property="og:title" content="Quick Info Finder">
+  <meta property="og:description" content="Discover cool facts instantly with Nishmal Vadakara's React-powered app. Get enhanced results powered by GPT-4.">
+  <meta property="og:image" content="URL_to_image_if_any">
+  <meta property="og:url" content="URL_of_your_page">
+  <meta property="og:type" content="website">
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <script src="https://unpkg.com/react/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body, html {
+    body,html {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      transition: background 0.5s, color 0.5s;
-    }
-    #root {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      height: 100vh;
+      align-items: center;
+      background: linear-gradient(135deg, #ff7e5f, #feb47b);
+      color: white;
       text-align: center;
-    }
-    .text-container {
-      margin-top: 20px;
-    }
-    button, .icon {
-      margin: 5px;
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 5px;
       transition: background 0.3s;
     }
-    .icon {
-      background: transparent;
-      font-size: 24px;
+    #root {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      max-width: 500px;
+      width: 90%;
+      transition: all 0.3s;
     }
-    .theme-icon {
-      position: absolute;
-      top: 10px;
-      right: 10px;
+    #root:hover {
+      transform: translateY(-5px);
     }
-    .github-icon {
+    h1 {
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1s ease-in-out;
+    }
+    h2 {
+      font-size: 1.5em;
+      margin-bottom: 20px;
+      font-weight: 300;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease-in-out;
+      min-height: 30px;
+    }
+    form, .result-section {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input, button {
+      padding: 15px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    input {
+      background: rgba(255, 255, 255, 0.9);
+      animation: fadeIn 2s ease-in-out;
+    }
+    button {
+      background: #ff7e5f;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+      animation: fadeIn 2.5s ease-in-out;
+    }
+    button:hover {
+      background: #e3645c;
+      transform: scale(1.05);
+    }
+    p {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 3s ease-in-out;
+      position: relative;
+    }
+    .loading {
+      font-size: 1.5em;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .github-button {
+      background: #24292e;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 20px;
+      animation: fadeIn 3s ease-in-out;
+    }
+    .github-button:hover {
+      background: #444d56;
+    }
+    .copy-icon {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 20px;
+      right: 20px;
+      cursor: pointer;
+      font-size: 1.2em;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 5px 10px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
   <div id="root"></div>
+
   <script type="text/babel">
     const { useState, useEffect } = React;
 
@@ -64,7 +149,7 @@
 
       useEffect(() => {
         if (index === texts.length) return;
-
+        
         if (subIndex === texts[index].length + 1 && forward) {
           setTimeout(() => setForward(false), 1500);
         } else if (subIndex === 0 && !forward) {
@@ -87,122 +172,98 @@
     }
 
     function App() {
-      const themes = [
-        { bodyBg: 'linear-gradient(135deg, #ff7e5f, #feb47b)', textColor: 'white', buttonBg: '#ff7e5f', buttonHoverBg: '#e3645c' },
-        { bodyBg: 'linear-gradient(135deg, #6a11cb, #2575fc)', textColor: 'white', buttonBg: '#6a11cb', buttonHoverBg: '#4a0c9e' },
-        { bodyBg: 'linear-gradient(135deg, #43cea2, #185a9d)', textColor: 'white', buttonBg: '#43cea2', buttonHoverBg: '#2a947c' },
-        { bodyBg: 'linear-gradient(135deg, #ff4e50, #f9d423)', textColor: 'white', buttonBg: '#ff4e50', buttonHoverBg: '#e34244' },
-        { bodyBg: 'linear-gradient(135deg, #8e2de2, #4a00e0)', textColor: 'white', buttonBg: '#8e2de2', buttonHoverBg: '#7220b7' },
-        { bodyBg: 'linear-gradient(135deg, #f953c6, #b91d73)', textColor: 'white', buttonBg: '#f953c6', buttonHoverBg: '#cc3e93' },
-        { bodyBg: 'linear-gradient(135deg, #2193b0, #6dd5ed)', textColor: 'white', buttonBg: '#2193b0', buttonHoverBg: '#1a7386' },
-        { bodyBg: 'linear-gradient(135deg, #cc2b5e, #753a88)', textColor: 'white', buttonBg: '#cc2b5e', buttonHoverBg: '#992349' },
-        { bodyBg: 'linear-gradient(135deg, #dce35b, #45b649)', textColor: 'white', buttonBg: '#dce35b', buttonHoverBg: '#b3c445' },
-        { bodyBg: 'linear-gradient(135deg, #fc4a1a, #f7b733)', textColor: 'white', buttonBg: '#fc4a1a', buttonHoverBg: '#d73a0f' },
-        { bodyBg: 'linear-gradient(135deg, #6441a5, #2a0845)', textColor: 'white', buttonBg: '#6441a5', buttonHoverBg: '#4e327a' },
-        { bodyBg: 'linear-gradient(135deg, #12c2e9, #c471ed, #f64f59)', textColor: 'white', buttonBg: '#12c2e9', buttonHoverBg: '#0e9db5' },
-        { bodyBg: 'linear-gradient(135deg, #f12711, #f5af19)', textColor: 'white', buttonBg: '#f12711', buttonHoverBg: '#c11c0d' },
-        { bodyBg: 'linear-gradient(135deg, #0099f7, #f11712)', textColor: 'white', buttonBg: '#0099f7', buttonHoverBg: '#006eb3' },
-        { bodyBg: 'linear-gradient(135deg, #00b09b, #96c93d)', textColor: 'white', buttonBg: '#00b09b', buttonHoverBg: '#007d6e' },
-        { bodyBg: 'linear-gradient(135deg, #ee0979, #ff6a00)', textColor: 'white', buttonBg: '#ee0979', buttonHoverBg: '#bb0660' },
-        { bodyBg: 'linear-gradient(135deg, #8e44ad, #3498db)', textColor: 'white', buttonBg: '#8e44ad', buttonHoverBg: '#6e3395' },
-        { bodyBg: 'linear-gradient(135deg, #2c3e50, #3498db)', textColor: 'white', buttonBg: '#2c3e50', buttonHoverBg: '#1e2b3a' },
-        { bodyBg: 'linear-gradient(135deg, #2b5876, #4e4376)', textColor: 'white', buttonBg: '#2b5876', buttonHoverBg: '#1f4059' },
-        { bodyBg: 'linear-gradient(135deg, #b92b27, #1565c0)', textColor: 'white', buttonBg: '#b92b27', buttonHoverBg: '#95211f' },
-      ];
-
-      const [theme, setTheme] = useState(themes[0]);
-
-      const applyTheme = (theme) => {
-        document.body.style.background = theme.bodyBg;
-        document.body.style.color = theme.textColor;
-        const rootElement = document.getElementById('root');
-        rootElement.style.background = theme.bodyBg;
-        rootElement.style.color = theme.textColor;
-        const buttons = document.querySelectorAll('button, .icon');
-        buttons.forEach(button => {
-          button.style.background = theme.buttonBg;
-          button.addEventListener('mouseover', () => {
-            button.style.background = theme.buttonHoverBg;
-          });
-          button.addEventListener('mouseout', () => {
-            button.style.background = theme.buttonBg;
-          });
-        });
-        Cookies.set('theme', theme);
-      };
-
-      useEffect(() => {
-        const savedTheme = Cookies.getJSON('theme');
-        if (savedTheme) {
-          setTheme(savedTheme);
-          applyTheme(savedTheme);
-        } else {
-          const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-          setTheme(randomTheme);
-          applyTheme(randomTheme);
-        }
-      }, []);
-
-      const changeTheme = () => {
-        const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-        setTheme(randomTheme);
-        applyTheme(randomTheme);
-      };
-
       const [word, setWord] = useState('');
       const [result, setResult] = useState('');
       const [loading, setLoading] = useState(false);
       const [submitted, setSubmitted] = useState(false);
-      const [isPlaying, setIsPlaying] = useState(false);
 
-      const handleChange = (event) => {
-        setWord(event.target.value);
+      const handleChange = (e) => {
+        setWord(e.target.value);
       };
 
-      const handleSubmit = async (event) => {
-        event.preventDefault();
+      const handleSubmit = async (e) => {
+        e.preventDefault();
         setLoading(true);
-        const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${word}`);
-        const data = await response.json();
-        const definition = data[0]?.meanings[0]?.definitions[0]?.definition || 'No definition found.';
-        setResult(definition);
-        setLoading(false);
         setSubmitted(true);
 
-        if (speechSynthesis.speaking) {
-          speechSynthesis.cancel();
+        const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=AIzaSyCOkIM8CgIL-doX70RxKr-_wcs5lqRx8gg';
+        const data = {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `What is ${word} in one para`
+                }
+              ]
+            }
+          ]
+        };
+
+        try {
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          });
+          const json = await response.json();
+          setLoading(false);
+          const content = json.candidates[0].content.parts[0].text; // Extract the text part
+          setResult(content);
+        } catch (error) {
+          console.error('Error:', error);
+          setLoading(false);
         }
-        const utterance = new SpeechSynthesisUtterance(definition);
-        speechSynthesis.speak(utterance);
-        setIsPlaying(true);
-        utterance.onend = () => setIsPlaying(false);
       };
+
+      const handleTryAnother = () => {
+        setWord('');
+        setResult('');
+        setSubmitted(false);
+      };
+
+      const handleCopy = () => {
+        navigator.clipboard.writeText(result);
+        alert("Copied to clipboard!");
+      };
+
+      const themes = [
+        { bodyBg: 'linear-gradient(135deg, #ff7e5f, #feb47b)', textColor: 'white', buttonBg: '#ff7e5f' },
+        { bodyBg: 'linear-gradient(135deg, #00b09b, #96c93d)', textColor: 'white', buttonBg: '#00b09b' },
+        { bodyBg: 'linear-gradient(135deg, #2193b0, #6dd5ed)', textColor: 'white', buttonBg: '#2193b0' },
+      ];
+
+      useEffect(() => {
+        const interval = setInterval(() => {
+          const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+          document.body.style.background = randomTheme.bodyBg;
+          document.body.style.color = randomTheme.textColor;
+          document.querySelectorAll('button').forEach(button => {
+            button.style.background = randomTheme.buttonBg;
+          });
+        }, 5000);
+        return () => clearInterval(interval);
+      }, []);
 
       return (
         <div>
-          <button className="icon github-icon" onClick={() => window.open('https://github.com', '_blank')}>
-            <i className="fas fa-star"></i>
-          </button>
-          <button className="icon theme-icon" onClick={changeTheme}>
-            <i className="fas fa-palette"></i>
-          </button>
-          <h1>Definition Generator</h1>
-          <TypingEffect texts={['Welcome to the definition generator!', 'Enter a word to get its definition.', 'Powered by GPT-4.']} speed={100} />
+          <h1>Quick Info Finder</h1>
+          <TypingEffect texts={['Find Quick Info Instantly!', 'Discover Cool Facts!']} speed={100} />
           <form onSubmit={handleSubmit}>
-            <label>
-              Enter a word:
-              <input type="text" value={word} onChange={handleChange} required />
-            </label>
-            <button type="submit" disabled={loading || !word}>Generate Definition</button>
+            <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
+            <button type="submit">Submit</button>
           </form>
-          {loading && <p>Loading...</p>}
+          {loading && <div className="loading">Loading...</div>}
           {submitted && !loading && (
-            <>
-              <div className="text-container">
-                <p>{result}</p>
-              </div>
-            </>
+            <div className="result-section">
+              <p>{result} <i className="fas fa-copy copy-icon" onClick={handleCopy}></i></p>
+              <button onClick={handleTryAnother}>Try Another</button>
+            </div>
           )}
+          <a href="https://github.com/yourusername" className="github-button" target="_blank">
+            <i className="fab fa-github"></i> View on GitHub
+          </a>
         </div>
       );
     }
