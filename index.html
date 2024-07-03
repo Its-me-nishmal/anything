@@ -22,7 +22,7 @@
   <script src="https://unpkg.com/babel-standalone/babel.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body,html {
+    body, html {
       margin: 0;
       padding: 0;
       height: 100%;
@@ -123,13 +123,24 @@
     .icon {
       position: absolute;
       top: 20px;
-      right: 20px;
+      right: 60px;
       cursor: pointer;
       font-size: 1.2em;
       background: rgba(255, 255, 255, 0.8);
       padding: 5px 10px;
       border-radius: 8px;
-      margin-right: 40px;
+    }
+    .copy-icon {
+      right: 20px;
+    }
+    .copy-icon.copied::after {
+      content: '✔';
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: green;
+      font-size: 1em;
+      margin: 5px;
     }
   </style>
 </head>
@@ -174,6 +185,7 @@
       const [result, setResult] = useState('');
       const [loading, setLoading] = useState(false);
       const [submitted, setSubmitted] = useState(false);
+      const [isPlaying, setIsPlaying] = useState(false);
 
       const handleChange = (e) => {
         setWord(e.target.value);
@@ -219,52 +231,49 @@
         setWord('');
         setResult('');
         setSubmitted(false);
+        setIsPlaying(false);
       };
 
       const handleCopy = () => {
         navigator.clipboard.writeText(result);
-        alert("Copied to clipboard!");
+        const copyIcon = document.querySelector('.copy-icon');
+        copyIcon.classList.add('copied');
+        setTimeout(() => copyIcon.classList.remove('copied'), 2000);
       };
 
-      const handleSpeak = () => {
-        const synth = window.speechSynthesis;
+      const handlePlayAudio = () => {
         const utterance = new SpeechSynthesisUtterance(result);
-        synth.speak(utterance);
+        utterance.onend = () => setIsPlaying(false);
+
+        if (isPlaying) {
+          window.speechSynthesis.cancel();
+          setIsPlaying(false);
+        } else {
+          window.speechSynthesis.speak(utterance);
+          setIsPlaying(true);
+        }
       };
-
-      const themes = [
-        { bodyBg: 'linear-gradient(135deg, #ff7e5f, #feb47b)', textColor: 'white', buttonBg: '#ff7e5f', buttonHoverBg: '#e3645c' },
-        { bodyBg: 'linear-gradient(135deg, #6a11cb, #2575fc)', textColor: 'white', buttonBg: '#6a11cb', buttonHoverBg: '#4a0cb3' },
-        { bodyBg: 'linear-gradient(135deg, #00c6ff, #0072ff)', textColor: 'white', buttonBg: '#00c6ff', buttonHoverBg: '#005bb5' }
-      ];
-      const [theme, setTheme] = useState(themes[0]);
-
-      useEffect(() => {
-        document.body.style.background = theme.bodyBg;
-        document.body.style.color = theme.textColor;
-      }, [theme]);
 
       return (
         <div>
           <h1>Quick Info Finder</h1>
-          <TypingEffect texts={['Type a word and discover!', 'Get instant facts at your fingertips.']} speed={100} />
-          {!submitted && (
-            <form onSubmit={handleSubmit}>
-              <input type="text" value={word} onChange={handleChange} placeholder="Enter a word" required />
-              <button type="submit">Submit</button>
-            </form>
-          )}
+          <TypingEffect texts={['Find Quick Information Instantly']} speed={150} />
+          <form onSubmit={handleSubmit} style={{ display: submitted ? 'none' : 'flex' }}>
+            <input type="text" value={word} onChange={handleChange} placeholder="Enter a word or phrase" />
+            <button type="submit">Submit</button>
+          </form>
           {loading && <div className="loading">Loading...</div>}
           {result && (
             <div className="result-section">
-              <p>{result}
-                <span className="icon" onClick={handleCopy}>📋</span>
-                <span className="icon" onClick={handleSpeak}>🔊</span>
+              <p>
+                {result}
+                <span className="icon" onClick={handlePlayAudio}>{isPlaying ? 'Stop' : 'Play'}</span>
+                <span className="icon copy-icon" onClick={handleCopy}>Copy</span>
               </p>
               <button onClick={handleTryAnother}>Try Another</button>
             </div>
           )}
-          <a href="https://github.com/nishmal-vadakara" className="github-button">View on GitHub</a>
+          <a className="github-button" href="https://github.com/Nishmal96" target="_blank" rel="noopener noreferrer">View on GitHub</a>
         </div>
       );
     }
