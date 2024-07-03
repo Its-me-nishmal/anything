@@ -84,7 +84,7 @@
       background: rgba(255, 255, 255, 0.9);
       animation: fadeIn 2s ease-in-out;
       flex-grow: 1;
-      margin-right: 10px;
+      margin-left: 10px;
     }
     button {
       background: #ff7e5f;
@@ -266,12 +266,33 @@
         window.speechSynthesis.speak(utterance);
       };
 
+      const handleVoiceInput = () => {
+        const recognition = new window.webkitSpeechRecognition();
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = (event) => {
+          const voiceInput = event.results[0][0].transcript;
+          setWord(voiceInput);
+        };
+
+        recognition.onerror = (event) => {
+          console.error('Speech recognition error', event.error);
+        };
+
+        recognition.start();
+      };
+
       return (
         <div>
           <h1>Quick Info Finder</h1>
           <TypingEffect texts={['Find Quick Information Instantly']} speed={150} />
           <form onSubmit={handleSubmit} style={{ display: submitted ? 'none' : 'flex' }}>
             <div className="input-container">
+              <button type="button" onClick={handleVoiceInput}>
+                <i className="fas fa-microphone"></i>
+              </button>
               <input type="text" value={word} onChange={handleChange} placeholder="Enter a word or phrase" />
               <button type="button" onClick={handleSpeakInput}>
                 <i className="fas fa-volume-up"></i>
